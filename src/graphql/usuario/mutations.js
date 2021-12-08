@@ -8,7 +8,6 @@ const EDITAR_USUARIO = gql`
     $identificacion: String!
     $correo: String!
     $rol: Enum_Rol!
-    $estado: Enum_EstadoUsuario!
   ) {
     editarUsuario(
       _id: $_id
@@ -17,7 +16,6 @@ const EDITAR_USUARIO = gql`
       identificacion: $identificacion
       correo: $correo
       rol: $rol
-      estado: $estado
     ) {
       _id
       nombre
@@ -25,7 +23,6 @@ const EDITAR_USUARIO = gql`
       correo
       identificacion
       rol
-      estado
     }
   }
 `;
