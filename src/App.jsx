@@ -77,7 +77,8 @@ function App() {
         </UserContext.Provider>
       </AuthContext.Provider>
     </ApolloProvider>
-  );
+
+);
 }
 
 export default App;
