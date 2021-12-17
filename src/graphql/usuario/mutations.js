@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-
 const EDITAR_USUARIO = gql`
   mutation EditarUsuario(
     $_id: String!
@@ -35,8 +34,9 @@ const EDITAR_PERFIL = gql`
       _id
       nombre
       apellido
-      identificacion      
+      identificacion
     }
   }
 `;
-export { EDITAR_USUARIO };
+
+export { EDITAR_USUARIO, EDITAR_PERFIL };
