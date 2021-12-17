@@ -23,13 +23,13 @@ const Profile = () => {
         },
       });
     
-
+      console.log("usuario ",queryData)
     return (
         <div className='p-10 flex flex-col items-center justify-center w-full'>
-        <h1 className='font-bold text-2xl text-gray-900'>Perfil del usuario</h1>
+        <h1 className='font-bold text-2xl text-gray-900'>Perfil del usuario </h1>
         <form ref={form} onChange={updateFormData}>
           <Input
-            // def  aultValue={queryData.nombre}
+            // defaultValue={userData.nombre}
             label='Nombre'
             name='nombre'
             type='text'

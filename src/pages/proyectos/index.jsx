@@ -4,7 +4,7 @@ import {GET_PROYECTOS} from 'graphql/proyectos/queries';
 import DropDown from 'components/DropDown';
 import Input from 'components/Input';
 import { Dialog } from '@mui/material';
-import { Enum_EstadoProyecto, Enum_TipoObjetivo } from 'utils/enums';
+import { Enum_EstadoProyecto, Enum_TipoObjetivo,Enum_FaseProyecto} from 'utils/enums';
 import ButtonLoading from 'components/ButtonLoading';
 import {
   EDITAR_PROYECTO,
@@ -35,18 +35,18 @@ const IndexProyectos = () => {
             <h1 className='text-2xl font-bold text-gray-900'>
               Lista de Proyectos
             </h1>
-          </div>
+          </div>        
           <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-            <div className='my-2 self-end'>
-              <button
-                type='button'
-                className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'
-              >
-                <Link to='/proyectos/nuevo'>Crear nuevo proyecto</Link>
-              </button>
-            </div>
-          </PrivateComponent>
-          
+          <div className='my-2 self-end'>
+            <button
+              type='button'
+              className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'
+            >
+              <Link to='/proyectos/nuevo'>Crear nuevo proyecto</Link>
+            </button>
+          </div>
+        </PrivateComponent>
+
           {queryProyecto.Proyectos.map((proyecto) => (
             <AccordionProyecto proyecto={proyecto} />
           ))}
@@ -58,6 +58,7 @@ const IndexProyectos = () => {
 
   const AccordionProyecto = ({ proyecto }) => {
     const [showDialog, setShowDialog] = useState(false);
+    const [showDialogFase, setShowDialogFase] = useState(false);
     return (
       <>
         <AccordionStyled>
@@ -67,6 +68,8 @@ const IndexProyectos = () => {
               <div className='uppercase font-bold text-gray-100 '>
                 {proyecto.nombre} - {proyecto.estado}
               </div>
+              <div className='uppercase font-bold text-gray-100 '>
+                Fase ( {proyecto.fase} )</div>
             </div>
           </AccordionSummaryStyled>
           <AccordionDetailsStyled>
@@ -76,14 +79,25 @@ const IndexProyectos = () => {
                 onClick={() => {
                   setShowDialog(true);
                 }}
+                className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'
               >
-                <i className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400' />
+                Cambiar Estado del Proyecto
+              </button>
+              <button
+                type='button'
+                onClick={() => {
+                  setShowDialogFase(true);
+                }}
+                className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'
+              >
+                Cambiar Fase del Proyecto
               </button>
             </PrivateComponent>
             <PrivateComponent roleList={['ESTUDIANTE']}>
               inscripciones             
             </PrivateComponent>
             <div>Liderado Por: {proyecto.lider._id}</div>
+            
             <div className='flex'>
               {proyecto.objetivos.map((objetivo, index) => (
                 <Objetivo
@@ -104,6 +118,14 @@ const IndexProyectos = () => {
           }}
         >
           <FormEditProyecto _id={proyecto._id} />
+        </Dialog>
+        <Dialog
+         open={showDialogFase}
+         onClose={() => {
+           setShowDialogFase(false);
+         }}
+        >
+          <FormEditFaseProyecto _id={proyecto._id}/>
         </Dialog>
       </>
     );
@@ -138,6 +160,48 @@ const IndexProyectos = () => {
             label='Estado del Proyecto'
             name='estado'
             options={Enum_EstadoProyecto}
+            
+          />
+          {/* <DropDown
+            label='Fase del Proyecto'
+            name='fase'
+            options={Enum_FaseProyecto}
+          /> */}
+          <ButtonLoading disabled={false} loading={loading} text='Confirmar' />
+        </form>
+      </div>
+    );
+  };
+  const FormEditFaseProyecto = ({ _id }) => {
+    const { form, formData, updateFormData } = useFormData();
+  
+    // falta capturar error de la mutacion
+    // falta toast de success
+    const [editarProyecto, { loading }] = useMutation(EDITAR_PROYECTO);
+  
+    const submitForm = (e) => {
+      e.preventDefault();
+      editarProyecto({
+        variables: {
+          _id,
+          campos: formData,
+        },
+      });
+    };
+  
+    return (
+      <div className='p-4'>
+        <h1 className='font-bold'>Modificar Fase del Proyecto</h1>
+        <form
+          ref={form}
+          onChange={updateFormData}
+          onSubmit={submitForm}
+          className='flex flex-col items-center'
+        >
+          <DropDown
+            label='Fase del Proyecto'
+            name='fase'
+            options={Enum_FaseProyecto}
           />
           <ButtonLoading disabled={false} loading={loading} text='Confirmar' />
         </form>
