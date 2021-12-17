@@ -9,6 +9,7 @@ const GET_USUARIOS = gql`
       identificacion
       correo
       rol
+      estado
     }
   }
 `;
@@ -22,6 +23,7 @@ const GET_USUARIO = gql`
       correo
       identificacion
       rol
+      estado
     }
   }
 `;

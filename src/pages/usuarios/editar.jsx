@@ -9,7 +9,7 @@ import DropDown from 'components/DropDown';
 import { EDITAR_USUARIO } from 'graphql/usuario/mutations';
 import { toast } from 'react-toastify';
 import ButtonLoading from 'components/ButtonLoading';
-import { Enum_Rol } from 'utils/enums';
+import { Enum_Rol ,Enum_EstadoUsuario} from 'utils/enums';
 
 const EditarUsuario = () => {
   const [userData, setUserData] = useState({});
@@ -94,12 +94,13 @@ const EditarUsuario = () => {
           required={true}
         />
         <DropDown
-          label='Rol de la persona:'
-          name='rol'
-          defaultValue={userData.rol}
+          label='Estado:'
+          name='estado'
+          defaultValue={userData.estado}
           required={true}
-          options={Enum_Rol}
+          options={Enum_EstadoUsuario}
         />
+         <span>Rol del usuario: {userData.rol}</span>
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}
           loading={loadingMutation}
