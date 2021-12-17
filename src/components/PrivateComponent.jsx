@@ -7,12 +7,8 @@ const PrivateComponent = ({ roleList, children }) => {
   if (roleList.includes(userData.rol)) {
     return children;
   }
-
-  return (
-    <div data-testid='not-authorized' className='text-5xl text-red-500 text-center'>
-      No estás autorizado para ver este sitio.
-    </div>
-  );
+  return <></>;
+ 
 };
 
 export default PrivateComponent;
