@@ -27,14 +27,14 @@ const NuevoProyecto = () => {
       data.Usuarios.forEach((elemento) => {
         lu[elemento._id] = elemento.correo;
       });
-
       setListaUsuarios(lu);
     }
   }, [data]);
+  
   const [crearProyecto] = useMutation(CREAR_PROYECTO);
   const submitForm = (e) => {
     e.preventDefault();
-    // formData.objetivos = Object.values(formData.objetivos);
+    formData.objetivos = Object.values(formData.objetivos);
     formData.presupuesto = parseFloat(formData.presupuesto);
     crearProyecto({
       variables: formData,
