@@ -34,16 +34,13 @@ const NuevoProyecto = () => {
   const [crearProyecto] = useMutation(CREAR_PROYECTO);
   const submitForm = (e) => {
     e.preventDefault();
-
-    formData.objetivos = Object.values(formData.objetivos);
+    // formData.objetivos = Object.values(formData.objetivos);
     formData.presupuesto = parseFloat(formData.presupuesto);
-
     crearProyecto({
       variables: formData,
     });
+    
   };
-
-  
 
   if (loading) return <div>...Loading</div>;
   return (

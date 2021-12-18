@@ -9,12 +9,15 @@ import PrivateRoute from 'components/PrivateRoute';
 const Usuarios = () => {
   
   const { loading, error, data } = useQuery(GET_USUARIOS);
-  
+  // const { loading, error, data } = useQuery(GET_USUARIOS,{
+  //   variables: {
+  //     filtro: { rol: 'ESTUDIANTE' },
+  //   },
+  // });
 
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>Error...</div>;
-
 
   return (
     <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>

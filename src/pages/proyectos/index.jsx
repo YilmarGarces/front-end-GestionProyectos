@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery,useMutation } from '@apollo/client';
-import {GET_PROYECTOS} from 'graphql/proyectos/queries';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_PROYECTOS } from 'graphql/proyectos/queries';
 import DropDown from 'components/DropDown';
 import Input from 'components/Input';
 import { Dialog } from '@mui/material';
-import { Enum_EstadoProyecto, Enum_TipoObjetivo,Enum_FaseProyecto} from 'utils/enums';
+import { Enum_EstadoProyecto, Enum_TipoObjetivo,Enum_FaseProyecto } from 'utils/enums';
 import ButtonLoading from 'components/ButtonLoading';
 import {
   EDITAR_PROYECTO,
@@ -14,19 +14,19 @@ import {
 import useFormData from 'hooks/useFormData';
 import PrivateComponent from 'components/PrivateComponent';
 import { Link } from 'react-router-dom';
+import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
+import { useUser } from 'context/userContext';
 import { toast } from 'react-toastify';
 import {
   AccordionStyled,
   AccordionSummaryStyled,
   AccordionDetailsStyled,
 } from 'components/Accordion';
-import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
-import { useUser } from 'context/userContext';
 
 import ReactLoading from 'react-loading';
 
 const IndexProyectos = () => {
-    const { data: queryProyecto, loading } = useQuery(GET_PROYECTOS);
+    const { loading, error, data:queryProyecto } = useQuery(GET_PROYECTOS);  
   
     if (loading) return <div>Cargando...</div>;
   
@@ -54,7 +54,7 @@ const IndexProyectos = () => {
           ))}
         </div>
       );
-    }
+          }
     return <></>;
   };
 
@@ -102,7 +102,7 @@ const IndexProyectos = () => {
                 inscripciones={proyecto.inscripciones}
               />
           </PrivateComponent>
-            <div>Liderado Por: {proyecto.lider._id}</div>
+            <div>Liderado Por: {proyecto.lider.nombre} ({proyecto.lider.correo})</div>
             
             <div className='flex'>
               {proyecto.objetivos.map((objetivo, index) => (
@@ -174,11 +174,11 @@ const IndexProyectos = () => {
     );
   };
   const FormEditFaseProyecto = ({ _id }) => {
-    const { form, formData, updateFormData } = useFormData();
+  const { form, formData, updateFormData } = useFormData();
   
     // falta capturar error de la mutacion
     // falta toast de success
-    const [editarProyecto, { loading }] = useMutation(EDITAR_PROYECTO);
+  const [editarProyecto, { loading }] = useMutation(EDITAR_PROYECTO);
   
     const submitForm = (e) => {
       e.preventDefault();
@@ -332,16 +332,16 @@ const IndexProyectos = () => {
     const [crearInscripcion, { data,error, loading }] = useMutation(CREAR_INSCRIPCION);
     const { userData } = useUser();
   
-    // useEffect(() => {
-    //   if (userData && inscripciones) {
-    //     const flt = inscripciones.filter(
-    //       (el) => el.estudiante._id === userData._id
-    //     );
-    //     if (flt.length > 0) {
-    //       setEstadoInscripcion(flt[0].estado);
-    //     }
-    //   }
-    // }, [userData, inscripciones]);
+    useEffect(() => {
+      if (userData && inscripciones) {
+        const flt = inscripciones.filter(
+          (el) => el.estudiante._id === userData._id
+        );
+        if (flt.length > 0) {
+          setEstadoInscripcion(flt[0].estado);
+        }
+      }
+    }, [userData, inscripciones]);
   
     useEffect(() => {
       if (data) {
