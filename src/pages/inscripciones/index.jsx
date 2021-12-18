@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import PrivateRoute from 'components/PrivateRoute';
-import { GET_INSCRIPCIONES } from 'graphql/inscripciones/queries';
+import { INSCRIPCIONES } from 'graphql/inscripciones/queries';
 import { APROBAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
 import ButtonLoading from 'components/ButtonLoading';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ import {
 
 const IndexInscripciones = () => {
   // falta capturar error de query
-  const { data, loading, refetch } = useQuery(GET_INSCRIPCIONES);
+  const { loading, error, data, refetch } = useQuery(INSCRIPCIONES);
 
   if (loading) return <div>Loading...</div>;
   return (
@@ -32,7 +32,7 @@ const IndexInscripciones = () => {
           />
           <AccordionInscripcion
             titulo='Inscripciones rechazadas'
-            data={data.Inscripciones.filter((el) => el.estado === 'RECHAZADO')}
+            // data={data.Inscripciones.filter((el) => el.estado === 'RECHAZADO')}
           />
         </div>
       </div>
@@ -43,7 +43,7 @@ const IndexInscripciones = () => {
 const AccordionInscripcion = ({ data, titulo, refetch = () => {} }) => (
   <AccordionStyled>
     <AccordionSummaryStyled>
-      {titulo} ({data.length})
+    {titulo}   {/*  ({data.length}) */}
     </AccordionSummaryStyled>
     <AccordionDetailsStyled>
       <div className='flex'>

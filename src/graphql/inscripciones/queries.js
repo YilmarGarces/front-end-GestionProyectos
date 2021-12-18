@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const GET_INSCRIPCIONES = gql`
+const INSCRIPCIONES = gql`
   query Inscripciones {
     Inscripciones {
       _id
@@ -22,4 +22,4 @@ const GET_INSCRIPCIONES = gql`
   }
 `;
 
-export { GET_INSCRIPCIONES };
+export { INSCRIPCIONES };

@@ -38,7 +38,7 @@ const IndexProyectos = () => {
               Lista de Proyectos
             </h1>
           </div>        
-          <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+          <PrivateComponent roleList={['LIDER','ADMINISTRADOR']}>
           <div className='my-2 self-end'>
             <button
               type='button'
@@ -242,6 +242,7 @@ const IndexProyectos = () => {
         <div className='text-lg font-bold'>{tipo}</div>
         <div>{descripcion}</div>
         <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+          
           <div className='flex my-2'>
             <button type='button' onClick={() => setShowEditDialog(true)}>
               <i className='fas fa-pen mx-2 text-yellow-500 hover:text-yellow-200 cursor-pointer' />

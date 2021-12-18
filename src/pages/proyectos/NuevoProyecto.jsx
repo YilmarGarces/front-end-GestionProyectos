@@ -30,16 +30,16 @@ const NuevoProyecto = () => {
       setListaUsuarios(lu);
     }
   }, [data]);
-  
+
   const [crearProyecto] = useMutation(CREAR_PROYECTO);
   const submitForm = (e) => {
     e.preventDefault();
-    formData.objetivos = Object.values(formData.objetivos);
     formData.presupuesto = parseFloat(formData.presupuesto);
+    // formData.objetivos = Object.values(formData.objetivos);
     crearProyecto({
       variables: formData,
     });
-    
+
   };
 
   if (loading) return <div>...Loading</div>;
@@ -121,14 +121,13 @@ const FormObjetivo = ({ id }) => {
   const { eliminarObjetivo } = useObj();
   return (
     <div className='flex items-center'>
-      <Input
-        name={`nested||objetivos||${id}||descripcion`}
+      <Input name={`nested ||objetivos||${id}||descripcion`}
         label='Descripción'
         type='text'
         required
       />
       <DropDown
-        name={`nested||objetivos||${id}||tipo`}
+        name={`nested ||objetivos||${id}||tipo`}
         options={Enum_TipoObjetivo}
         label='Tipo de Objetivo'
         required
