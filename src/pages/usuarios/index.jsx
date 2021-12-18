@@ -7,7 +7,9 @@ import PrivateRoute from 'components/PrivateRoute';
 
 
 const Usuarios = () => {
+  
   const { loading, error, data } = useQuery(GET_USUARIOS);
+  
 
   if (loading) return <div>Loading...</div>;
 
@@ -15,7 +17,7 @@ const Usuarios = () => {
 
 
   return (
-    <PrivateRoute roleList={['ADMINISTRADOR']}>
+    <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
     <div>
       Datos Usuarios:
       <table className='tabla'>

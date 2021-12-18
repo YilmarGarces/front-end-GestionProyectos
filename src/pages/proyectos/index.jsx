@@ -20,6 +20,8 @@ import {
   AccordionSummaryStyled,
   AccordionDetailsStyled,
 } from 'components/Accordion';
+import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
+import { useUser } from 'context/userContext';
 
 import ReactLoading from 'react-loading';
 
@@ -93,9 +95,13 @@ const IndexProyectos = () => {
                 Cambiar Fase del Proyecto
               </button>
             </PrivateComponent>
-            <PrivateComponent roleList={['ESTUDIANTE']}>
-              inscripciones             
-            </PrivateComponent>
+            <PrivateComponent roleList={['LIDER', 'ESTUDIANTE']}>
+              <InscripcionProyecto
+                idProyecto={proyecto._id}
+                estado={proyecto.estado}
+                inscripciones={proyecto.inscripciones}
+              />
+          </PrivateComponent>
             <div>Liderado Por: {proyecto.lider._id}</div>
             
             <div className='flex'>
@@ -162,11 +168,6 @@ const IndexProyectos = () => {
             options={Enum_EstadoProyecto}
             
           />
-          {/* <DropDown
-            label='Fase del Proyecto'
-            name='fase'
-            options={Enum_FaseProyecto}
-          /> */}
           <ButtonLoading disabled={false} loading={loading} text='Confirmar' />
         </form>
       </div>
@@ -324,4 +325,63 @@ const IndexProyectos = () => {
     );
   };
 
-export default IndexProyectos;
+  const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
+    const [estadoInscripcion, setEstadoInscripcion] = useState('');
+  
+    // falta captura del error de la mutacion
+    const [crearInscripcion, { data,error, loading }] = useMutation(CREAR_INSCRIPCION);
+    const { userData } = useUser();
+  
+    // useEffect(() => {
+    //   if (userData && inscripciones) {
+    //     const flt = inscripciones.filter(
+    //       (el) => el.estudiante._id === userData._id
+    //     );
+    //     if (flt.length > 0) {
+    //       setEstadoInscripcion(flt[0].estado);
+    //     }
+    //   }
+    // }, [userData, inscripciones]);
+  
+    useEffect(() => {
+      if (data) {
+        toast.success('inscripcion creada con exito');
+      }
+    }, [data]);
+  
+    const confirmarInscripcion = () => {
+      crearInscripcion({
+        variables: { proyecto: idProyecto, estudiante: userData._id },
+      });
+    };
+  
+    return (
+      <>
+        {estadoInscripcion !== '' ? (
+          <div className='flex flex-col items-start'>
+            <span>
+              Ya estas inscrito en este proyecto y el estado es{' '}
+              {estadoInscripcion}
+            </span>
+            {estadoInscripcion === 'ACEPTADO' && (
+              <Link
+                to={`/avances/${idProyecto}`}
+                className='bg-yellow-700 p-2 rounded-lg text-white my-2 hover:bg-yellow-500'
+              >
+                Visualizar Avances
+              </Link>
+            )}
+          </div>
+        ) : (
+          <ButtonLoading
+            onClick={() => confirmarInscripcion()}
+            disabled={estado === 'INACTIVO'}
+            loading={loading}
+            text='Inscribirme en este proyecto'
+          />
+        )}
+      </>
+    );
+  };
+  
+  export default IndexProyectos;

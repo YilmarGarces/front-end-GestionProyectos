@@ -17,12 +17,12 @@ import { AuthContext } from 'context/authContext';
 import Proyectos from 'pages/proyectos/index';
 import Profile from 'pages/perfil';
 import IndexInscripciones from 'pages/inscripciones/index';
-import NuevoProyect from 'pages/proyectos/nuevoProyect';
+import NuevoProyect from 'pages/proyectos/NuevoProyecto';
 
 // import PrivateRoute from 'components/PrivateRoute';
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:4000/graphql',
+  //  uri: 'http://localhost:4000/graphql',
   uri: 'https://servidor-prueba-gql.herokuapp.com/graphql',
   // uri: 'https://servidor-gql-mintic.herokuapp.com/graphql',
 });
