@@ -23,11 +23,11 @@ const IndexInscripciones = () => {
         <div className='my-4'>
           <AccordionInscripcion
             titulo='Inscripciones aprobadas'
-            data={data.Inscripciones.filter((el) => el.estado === 'ACEPTADO')}
+            // data={data.Inscripciones.filter((el) => el.estado === 'ACEPTADO')}
           />
           <AccordionInscripcion
             titulo='Inscripciones pendientes'
-            data={data.Inscripciones.filter((el) => el.estado === 'PENDIENTE')}
+            // data={data.Inscripciones.filter((el) => el.estado === 'PENDIENTE')}
             refetch={refetch}
           />
           <AccordionInscripcion
